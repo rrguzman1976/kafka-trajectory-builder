@@ -1,0 +1,10 @@
+pandas
+numpy
+pyodbc
+sqlalchemy
+jupyter
+pytest
+sklearn
+seaborn
+numba
+confluent-kafka
