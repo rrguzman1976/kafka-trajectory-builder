@@ -21,3 +21,15 @@
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
+
+# VS Code
+.vscode/
+.devcontainer.json
+
+# Venv
+trajectory-consumer/bin
+trajectory-consumer/include
+trajectory-consumer/lib
+trajectory-consumer/lib64
+trajectory-consumer/share
+pyvenv.cfg
