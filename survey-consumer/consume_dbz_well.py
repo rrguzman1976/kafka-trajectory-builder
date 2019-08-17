@@ -2,12 +2,16 @@ import pandas as pd
 import numpy as np
 from confluent_kafka import Consumer, KafkaError
 import time
+from python_gis.hello import hello_world
 
+# Example consumer from Debezium topic.
 def main():
+    hello_world('Test from container...')
     print(f"Starting Python consumer...")
 
     c = Consumer({
-        'bootstrap.servers': 'localhost:9092',
+        'bootstrap.servers': 'kafka:9092',
+        #'bootstrap.servers': 'localhost:9092',
         'group.id': 'ds-consumer-python-01',
         'auto.offset.reset': 'earliest',
         'enable.auto.commit': 'true'

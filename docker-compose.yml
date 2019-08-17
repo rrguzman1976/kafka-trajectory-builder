@@ -10,11 +10,9 @@ services:
     image: debezium/kafka:${DEBEZIUM_VERSION}
     ports:
       - 9092:9092
-    links:
-      - zookeeper
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
-  sqlserver:
+  mssql:
     image: microsoft/mssql-server-linux:2017-CU9-GDR2
     ports:
       - 1433:1433
@@ -27,25 +25,22 @@ services:
     image: debezium/connect:${DEBEZIUM_VERSION}
     ports:
       - 8083:8083
-    links:
-      - kafka
-      - sqlserver
     environment:
       - BOOTSTRAP_SERVERS=kafka:9092
       - GROUP_ID=1
       - CONFIG_STORAGE_TOPIC=rko_connect_configs
       - OFFSET_STORAGE_TOPIC=rko_connect_offsets
       - STATUS_STORAGE_TOPIC=rko_connect_statuses
-  #python-trajectory-consumer:
-  #  image: python-trajectory-consumer
-  #  build:
-  #    context: ./trajectory-consumer
-  #    dockerfile: Dockerfile-python
+  survey-consumer:
+    image: survey-consumer
+    build:
+      context: ./survey-consumer
+      dockerfile: Dockerfile-python
   #  command: ["python3.6", "main.py"]
   #  depends_on:
   #    - zookeeper
   #    - kafka
-  #    - sqlserver
+  #    - mssql
   #    - connect
   #  volumes: 
   #    - ./trajectory-consumer:/opt/trajectory-consumer-service/local

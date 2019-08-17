@@ -52,6 +52,13 @@ CREATE TABLE dbo.DbzWell
 );
 GO
 
+EXEC sys.sp_cdc_enable_table 
+    @source_schema = 'dbo'
+    , @source_name = 'DbzWell'
+    , @role_name = NULL
+    , @supports_net_changes = 0;
+GO
+
 INSERT INTO dbo.DirectionalSurvey
 VALUES (1, '00-000-00001', 'WKID1', '0001', 'N')
         , (2, '00-000-00002', 'WKID2', '0002', 'N')
@@ -90,11 +97,4 @@ INSERT INTO dbo.DbzWell (id, API, WellName, LATITUDE, LONGITUDE)
           , (23, '00-000-00023', 'WELL-NAME-23', 31.8457, 102.3676)
           , (24, '00-000-00024', 'WELL-NAME-24', 31.8457, 102.3676)
 ;
-GO
-
-EXEC sys.sp_cdc_enable_table 
-    @source_schema = 'dbo'
-    , @source_name = 'DbzWell'
-    , @role_name = NULL
-    , @supports_net_changes = 0;
 GO

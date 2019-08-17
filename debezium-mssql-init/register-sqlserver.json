@@ -4,7 +4,7 @@
         "connector.class" : "io.debezium.connector.sqlserver.SqlServerConnector",
         "tasks.max" : "1",
         "database.server.name" : "funky-chicken",
-        "database.hostname" : "sqlserver",
+        "database.hostname" : "mssql",
         "database.port" : "1433",
         "database.user" : "sa",
         "database.password" : "HelloWorld!",

@@ -1,0 +1,14 @@
+pandas
+numpy
+pyodbc
+sqlalchemy
+jupyter
+pytest
+sklearn
+seaborn
+numba
+confluent-kafka
+
+# Libraries
+#git+ssh://git@github.com/rrguzman1976/python-gis
+git+https://git@github.com/rrguzman1976/python-gis

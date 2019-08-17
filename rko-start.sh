@@ -10,8 +10,11 @@ sleep 15s
 
 # Initialize database and insert test data
 cat debezium-mssql-init/create-db.sql | \
-    docker exec -i kafka-trajectory-builder_sqlserver_1 bash \
+    docker exec -i kafka-trajectory-builder_mssql_1 bash \
     -c '/opt/mssql-tools/bin/sqlcmd -U sa -P $SA_PASSWORD'
+
+echo "waiting for SQL CDC..."
+sleep 3s
 
 # Start SQL Server connector
 # topic created: funky-chicken.dbo.Well
@@ -45,3 +48,12 @@ docker-compose exec kafka /kafka/bin/kafka-topics.sh \
     --partitions 1 \
     --replication-factor 1 \
     --config cleanup.policy=compact
+
+echo "waiting for consumer..."
+sleep 2s
+
+# TEST: Start survey consumer
+# Unbuffer so that output is visible
+docker-compose run --name python-survey-consumer \
+    --rm survey-consumer \
+    python3.6 -u consume_dbz_well.py
