@@ -11,7 +11,6 @@ def main():
 
     c = Consumer({
         'bootstrap.servers': 'kafka:9092',
-        #'bootstrap.servers': 'localhost:9092',
         'group.id': 'ds-consumer-python-01',
         'auto.offset.reset': 'earliest',
         'enable.auto.commit': 'true'

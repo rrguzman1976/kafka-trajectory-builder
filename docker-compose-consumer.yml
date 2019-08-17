@@ -1,0 +1,18 @@
+version: "3"
+services:
+  survey-consumer:
+    image: survey-consumer
+    build:
+      context: ./survey-consumer
+      dockerfile: Dockerfile-python
+    networks: 
+      - kafka
+    # For vs code debugging
+    command: /bin/sh -c "while sleep 1000; do :; done"
+  #  volumes: 
+  #    - ./trajectory-consumer:/opt/trajectory-consumer-service/local
+networks:
+  kafka:
+    # Connect to already created Kafka network
+    external:
+      name: kafka-trajectory-builder_default

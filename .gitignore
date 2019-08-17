@@ -34,3 +34,6 @@ trajectory-consumer/lib64
 trajectory-consumer/share
 trajectory-consumer/etc
 pyvenv.cfg
+
+# PyCharm
+.idea/

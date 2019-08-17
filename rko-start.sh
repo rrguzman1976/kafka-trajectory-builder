@@ -2,8 +2,8 @@
 
 # Start the topology as defined in http://debezium.io/docs/tutorial/
 export DEBEZIUM_VERSION=0.9
-docker-compose build
-docker-compose up -d
+docker-compose -f docker-compose-kafka.yml build
+docker-compose -f docker-compose-kafka.yml up -d
 
 echo "waiting for SQL..."
 sleep 15s
@@ -14,7 +14,7 @@ cat debezium-mssql-init/create-db.sql | \
     -c '/opt/mssql-tools/bin/sqlcmd -U sa -P $SA_PASSWORD'
 
 echo "waiting for SQL CDC..."
-sleep 3s
+sleep 5s
 
 # Start SQL Server connector
 # topic created: funky-chicken.dbo.Well
@@ -23,7 +23,7 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
 
 # Create topics
 # Input topic
-docker-compose exec kafka /kafka/bin/kafka-topics.sh \
+docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
     --topic dir-survey-01 \
     --create \
@@ -32,7 +32,7 @@ docker-compose exec kafka /kafka/bin/kafka-topics.sh \
     --config cleanup.policy=compact
 
 # Output topic 1: stream survey counts per API
-docker-compose exec kafka /kafka/bin/kafka-topics.sh \
+docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
     --topic dir-survey-counts-01 \
     --create \
@@ -41,7 +41,7 @@ docker-compose exec kafka /kafka/bin/kafka-topics.sh \
     --config cleanup.policy=compact
 
 # Output topic 2: reduce survey by max GC per API
-docker-compose exec kafka /kafka/bin/kafka-topics.sh \
+docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
     --topic dir-survey-max-02 \
     --create \
@@ -54,6 +54,9 @@ sleep 2s
 
 # TEST: Start survey consumer
 # Unbuffer so that output is visible
-docker-compose run --name python-survey-consumer \
-    --rm survey-consumer \
+docker-compose -f docker-compose-consumer.yml build
+docker-compose -f docker-compose-consumer.yml run \
+    --name python-survey-consumer \
+    --rm \
+    survey-consumer \
     python3.6 -u consume_dbz_well.py
