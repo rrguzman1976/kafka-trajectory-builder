@@ -1,7 +1,5 @@
-import pandas as pd
-import numpy as np
 from confluent_kafka import Consumer, KafkaError
-import time
+
 from python_gis import hello as h
 
 # Example consumer from Debezium topic.
