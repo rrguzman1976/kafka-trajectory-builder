@@ -2,11 +2,14 @@ import pandas as pd
 import numpy as np
 from confluent_kafka import Consumer, KafkaError
 import time
-from python_gis.hello import hello_world
+from python_gis import hello as h
 
 # Example consumer from Debezium topic.
 def main():
-    hello_world('Test from container...')
+
+    wkt = h.depends_check()
+    print(f"WKT: {wkt}")
+
     print(f"Starting Python consumer...")
 
     c = Consumer({

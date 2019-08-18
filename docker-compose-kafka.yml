@@ -13,7 +13,7 @@ services:
     environment:
       - ZOOKEEPER_CONNECT=zookeeper:2181
   mssql:
-    image: microsoft/mssql-server-linux:2017-CU9-GDR2
+    image: microsoft/mssql-server-linux:latest
     ports:
       - 1433:1433
     environment:

@@ -6,7 +6,7 @@ docker-compose -f docker-compose-kafka.yml build
 docker-compose -f docker-compose-kafka.yml up -d
 
 echo "waiting for SQL..."
-sleep 15s
+sleep 25s
 
 # Initialize database and insert test data
 cat debezium-mssql-init/create-db.sql | \
@@ -48,15 +48,3 @@ docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh
     --partitions 1 \
     --replication-factor 1 \
     --config cleanup.policy=compact
-
-echo "waiting for consumer..."
-sleep 2s
-
-# TEST: Start survey consumer
-# Unbuffer so that output is visible
-docker-compose -f docker-compose-consumer.yml build
-docker-compose -f docker-compose-consumer.yml run \
-    --name python-survey-consumer \
-    --rm \
-    survey-consumer \
-    python3.6 -u consume_dbz_well.py
