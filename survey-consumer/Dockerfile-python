@@ -1,6 +1,5 @@
 FROM ubuntu:18.04
 
-# TODO: Add rsa key so that ssh+git can be done.
 # Set Locale - required for ODBC driver
 RUN apt-get update \
     && apt-get install -y \
@@ -38,6 +37,8 @@ ENV PATH="$PATH:/opt/mssql-tools/bin"
 ENV WORK_HOME /opt/trajectory-consumer-service
 
 COPY requirements.txt ${WORK_HOME}/requirements.txt
+# Add rsa key for ssh+git clones.
+ADD ./.ssh/id_rsa ${WORK_HOME}/.ssh/
 
 RUN buildDeps='build-essential git' \
     && set -x \
@@ -45,7 +46,12 @@ RUN buildDeps='build-essential git' \
     && apt-get install -y $buildDeps \
     && apt-get update \
     && pip3 install --upgrade pip==9.0.3 \
+    && eval "$(ssh-agent -s)" \
+    && echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config \
+    && cat /etc/ssh/ssh_config \
+    && ssh-add ${WORK_HOME}/.ssh/id_rsa \
     && pip3 install -r ${WORK_HOME}/requirements.txt \
+    && rm -rf ${WORK_HOME}/.ssh \
     && rm -rf /var/lib/apt/lists/* 
     #&& apt-get purge -y --auto-remove $buildDeps
 
@@ -53,6 +59,7 @@ RUN buildDeps='build-essential git' \
 COPY ./consume_dbz_well.py ${WORK_HOME}
 
 WORKDIR ${WORK_HOME}
+
 ENV PATH=$PATH:${WORK_HOME}
 ENV PYTHONPATH ${WORK_HOME}
 

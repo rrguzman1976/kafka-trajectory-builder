@@ -9,8 +9,8 @@ services:
       - kafka
     # For vs code debugging
     command: /bin/sh -c "while sleep 1000; do :; done"
-  #  volumes: 
-  #    - ./trajectory-consumer:/opt/trajectory-consumer-service/local
+    #volumes: 
+    #  - ~/.ssh:/root/.ssh
 networks:
   kafka:
     # Connect to already created Kafka network

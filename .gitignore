@@ -37,3 +37,6 @@ pyvenv.cfg
 
 # PyCharm
 .idea/
+
+# Security
+.ssh
