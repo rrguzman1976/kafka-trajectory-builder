@@ -31,7 +31,8 @@ CREATE TABLE dbo.SurveyReport
 (
     ID      INT         NOT             NULL
         PRIMARY KEY,
-    DirectionalSurveyId INT             NOT NULL,
+    DirectionalSurveyId INT             NOT NULL
+        FOREIGN KEY REFERENCES dbo.SurveyReport (ID),
     Azimuth             FLOAT           NULL,
     MD                  FLOAT           NULL,
     Inclination         FLOAT           NULL,
@@ -67,9 +68,13 @@ GO
 
 INSERT INTO dbo.SurveyReport
 VALUES (1, 1, 1.0, 2.0, 3.0, 'N')
-        , (2, 2, 4.0, 5.0, 6.0, 'N')
-        , (3, 3, 7.0, 8.0, 9.0, 'N');
+        , (2, 1, 4.0, 5.0, 6.0, 'N')
+        , (3, 2, 7.0, 8.0, 9.0, 'N')
+        , (4, 2, 1.0, 2.0, 3.0, 'N')
+        , (5, 3, 4.0, 5.0, 6.0, 'N')
+        , (6, 3, 7.0, 8.0, 9.0, 'N');
 GO
+
 INSERT INTO dbo.DbzWell (id, API, WellName, LATITUDE, LONGITUDE)
   VALUES (0, '00-000-00000', 'WELL-0', 31.8457, 102.3676)
           , (1, '00-000-00001', 'WELL-1', 31.8457, 102.3676)

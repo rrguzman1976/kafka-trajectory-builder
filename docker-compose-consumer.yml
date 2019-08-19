@@ -9,6 +9,13 @@ services:
       - kafka
     # For vs code debugging
     command: /bin/sh -c "while sleep 1000; do :; done"
+    environment:
+      - SQL_DRIVER="{ODBC Driver 17 for SQL Server}"
+      - SQL_HOST=mssql
+      - SQL_DB=ScratchDB
+      - SQL_USER=sa
+      - SQL_PASSWORD=HelloWorld!
+      - ACQ_TOPIC=dir-survey-01
     #volumes: 
     #  - ~/.ssh:/root/.ssh
 networks:

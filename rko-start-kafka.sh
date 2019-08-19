@@ -23,7 +23,8 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
 
 # Create topics
 # Input topic
-docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh \
+docker-compose -f docker-compose-kafka.yml exec kafka \
+    /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
     --topic dir-survey-01 \
     --create \
@@ -32,7 +33,8 @@ docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh
     --config cleanup.policy=compact
 
 # Output topic 1: stream survey counts per API
-docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh \
+docker-compose -f docker-compose-kafka.yml \
+    exec kafka /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
     --topic dir-survey-counts-01 \
     --create \
@@ -41,7 +43,8 @@ docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh
     --config cleanup.policy=compact
 
 # Output topic 2: reduce survey by max GC per API
-docker-compose -f docker-compose-kafka.yml exec kafka /kafka/bin/kafka-topics.sh \
+docker-compose -f docker-compose-kafka.yml \
+    exec kafka /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
     --topic dir-survey-max-02 \
     --create \
