@@ -31,8 +31,9 @@ def main():
 
     log.info(f"Connecting to {host}.{db}...")
 
-    params = urllib.parse.quote_plus(con_str)  # must url-escape delimiters
-    sql_engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}")
+    params = urllib.parse.quote_plus(con_str)
+    sql_engine = create_engine(f"mssql+pyodbc:///?odbc_connect={params}"
+                               , echo=True) # echo's emitted sql
 
     # Bind the engine to the metadata of the Base class so that the
     # declaratives can be accessed through a DBSession instance
@@ -46,11 +47,14 @@ def main():
                     Survey.STATUS_CODE.in_(['N', 'C']))\
                 .all()
 
+    print(surveys)
+
+
     #survey_tmp = session.query(Survey).first()
     #session.query(SurveyReport).filter(SurveyReport.survey == survey_tmp).all()
 
-    for s in surveys:
-        print(f"{s.ID}, {s.API}, {s.STATUS_CODE}, {s.stations}")
+    # for s in surveys:
+    #     print(f"{s.ID}, {s.API}, {s.STATUS_CODE}, {s.stations}")
 
     # Pandas
     # survey_qry = """

@@ -5,19 +5,22 @@ services:
     build:
       context: ./survey-consumer
       dockerfile: Dockerfile-python
+    ports:
+      - 8889:8888
     networks: 
       - kafka
+    command: "jupyter notebook --ip 0.0.0.0 --no-browser --allow-root --NotebookApp.token=''"
     # For vs code debugging
-    command: /bin/sh -c "while sleep 1000; do :; done"
+    #command: /bin/sh -c "while sleep 1000; do :; done"
     environment:
-      - SQL_DRIVER="{ODBC Driver 17 for SQL Server}"
+      - SQL_DRIVER={ODBC Driver 17 for SQL Server}
       - SQL_HOST=mssql
       - SQL_DB=ScratchDB
       - SQL_USER=sa
       - SQL_PASSWORD=HelloWorld!
       - ACQ_TOPIC=dir-survey-01
-    #volumes: 
-    #  - ~/.ssh:/root/.ssh
+    volumes: 
+      - ./survey-consumer/jupyter:/opt/trajectory-consumer-service/local
 networks:
   kafka:
     # Connect to already created Kafka network

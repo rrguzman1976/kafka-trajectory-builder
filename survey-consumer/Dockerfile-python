@@ -28,6 +28,7 @@ RUN apt-get update \
         mssql-tools \
         unixodbc-dev \
         python3-pip \
+        python3.6-dev \
         iputils-ping \
     && apt-get update \
     && rm -rf /var/lib/apt/lists/*
@@ -45,17 +46,17 @@ RUN buildDeps='build-essential git' \
     && apt-get update \
     && apt-get install -y $buildDeps \
     && apt-get update \
-    && pip3 install --upgrade pip==9.0.3 \
     && eval "$(ssh-agent -s)" \
     && echo "StrictHostKeyChecking no" >> /etc/ssh/ssh_config \
     && cat /etc/ssh/ssh_config \
     && ssh-add ${WORK_HOME}/.ssh/id_rsa \
+    && pip3 install --upgrade pip==9.0.3 \
     && pip3 install -r ${WORK_HOME}/requirements.txt \
     && rm -rf ${WORK_HOME}/.ssh \
     && rm -rf /var/lib/apt/lists/* 
     #&& apt-get purge -y --auto-remove $buildDeps
 
-#COPY ./survey-consumer ${WORK_HOME}/survey-consumer
+COPY ./survey_consumer ${WORK_HOME}/survey_consumer
 COPY ./consume_dbz_well.py ${WORK_HOME}
 
 WORKDIR ${WORK_HOME}

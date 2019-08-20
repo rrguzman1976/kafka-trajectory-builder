@@ -6,7 +6,8 @@ Base = declarative_base()
 
 class Survey(Base):
     __tablename__ = 'DirectionalSurvey'
-    ID = Column(Integer, primary_key=True)
+
+    ID = Column(Integer, autoincrement=False, primary_key=True)
     API = Column(String(32), nullable=True)
     WKID = Column(String(32), nullable=True)
     FIPS = Column(String(4), nullable=True)
@@ -17,7 +18,8 @@ class Survey(Base):
 
 class SurveyReport(Base):
     __tablename__ = 'SurveyReport'
-    ID = Column(Integer, primary_key=True)
+
+    ID = Column(Integer, autoincrement=False, primary_key=True)
     DirectionalSurveyId = Column(Integer, ForeignKey('DirectionalSurvey.ID'), nullable=False)
     Azimuth = Column(Float, nullable=True)
     MD = Column(Float, nullable=True)
