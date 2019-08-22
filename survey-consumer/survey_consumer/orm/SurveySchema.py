@@ -13,8 +13,8 @@ class Survey(Base):
     FIPS = Column(String(4), nullable=True)
     STATUS_CODE = Column(String(1), nullable=False)
 
-    # def __repr__(self):
-    #     return f"{self.ID}"
+    def __repr__(self):
+        return f"Survey(ID={self.ID}, API={self.API}, WKID={self.WKID}, Points={self.stations})"
 
 class SurveyReport(Base):
     __tablename__ = 'SurveyReport'
@@ -26,3 +26,6 @@ class SurveyReport(Base):
     Inclination = Column(Float, nullable=True)
     STATUS_CODE = Column(String(1), nullable=False)
     survey = relationship(Survey, backref=backref('stations', uselist=True))
+
+    def __repr__(self):
+        return f"Report(ID={self.ID}, FK={self.DirectionalSurveyId}, STATUS={self.STATUS_CODE})"
