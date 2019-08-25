@@ -22,6 +22,7 @@ import org.apache.kafka.streams.Topology;
 import com.github.rrguzman1976.kafka.beans.DirectionalSurvey;
 import com.github.rrguzman1976.kafka.serdes.SurveyJSONSerde;
 
+// TODO: Deploy from Docker
 public class SurveyEnrichApp {
     // TODO: Setup logger level to debug.
     private static Logger logger = LoggerFactory.getLogger(SurveyEnrichApp.class.getName());
