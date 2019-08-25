@@ -19,7 +19,7 @@ services:
     environment:
       - ACCEPT_EULA=Y
       - MSSQL_PID=Developer
-      - SA_PASSWORD=HelloWorld!
+      - SA_PASSWORD=HelloWorld1
       - MSSQL_AGENT_ENABLED=true
   connect:
     image: debezium/connect:${DEBEZIUM_VERSION:-0.9}

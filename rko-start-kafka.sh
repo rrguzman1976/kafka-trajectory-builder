@@ -26,27 +26,17 @@ curl -i -X POST -H "Accept:application/json" -H "Content-Type:application/json" 
 docker-compose -f docker-compose-kafka.yml exec kafka \
     /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
-    --topic dir-survey-01 \
+    --topic survey-acq \
     --create \
     --partitions 1 \
     --replication-factor 1 \
     --config cleanup.policy=compact
 
-# Output topic 1: stream survey counts per API
+# Output topic 1: enrich topic with API
 docker-compose -f docker-compose-kafka.yml \
     exec kafka /kafka/bin/kafka-topics.sh \
     --zookeeper zookeeper:2181 \
-    --topic dir-survey-counts-01 \
-    --create \
-    --partitions 1 \
-    --replication-factor 1 \
-    --config cleanup.policy=compact
-
-# Output topic 2: reduce survey by max GC per API
-docker-compose -f docker-compose-kafka.yml \
-    exec kafka /kafka/bin/kafka-topics.sh \
-    --zookeeper zookeeper:2181 \
-    --topic dir-survey-max-02 \
+    --topic survey-cln \
     --create \
     --partitions 1 \
     --replication-factor 1 \

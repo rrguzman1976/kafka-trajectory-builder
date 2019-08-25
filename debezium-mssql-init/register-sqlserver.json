@@ -7,7 +7,7 @@
         "database.hostname" : "mssql",
         "database.port" : "1433",
         "database.user" : "sa",
-        "database.password" : "HelloWorld!",
+        "database.password" : "HelloWorld1",
         "database.dbname" : "ScratchDB",
         "table.whitelist" : "dbo.DbzWell",
         "database.history.kafka.bootstrap.servers" : "kafka:9092",

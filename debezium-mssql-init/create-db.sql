@@ -14,12 +14,14 @@ GO
 
 CREATE TABLE dbo.DirectionalSurvey
 (
-    ID          INT         NOT NULL
+    SurveyId            INT             NOT NULL
         PRIMARY KEY,
-    API         VARCHAR(32) NULL,
-    WKID        VARCHAR(32) NULL,
-    FIPS        VARCHAR(4)  NULL,
-    STATUS_CODE VARCHAR(1)  NOT NULL  
+    API                 VARCHAR(20)     NULL,
+    WKID                VARCHAR(32)     NULL,
+    FIPSCode            VARCHAR(4)      NULL,
+    StatusCode          VARCHAR(1)      NOT NULL,
+    Created             DATETIME2(7)    NOT NULL
+        DEFAULT SYSUTCDATETIME()
 );
 GO
 
@@ -29,25 +31,28 @@ GO
 
 CREATE TABLE dbo.SurveyReport
 (
-    ID      INT         NOT             NULL
+    SurveyReportID      INT             NOT NULL
         PRIMARY KEY,
     DirectionalSurveyId INT             NOT NULL
-        FOREIGN KEY REFERENCES dbo.SurveyReport (ID),
+        FOREIGN KEY REFERENCES dbo.DirectionalSurvey (SurveyId),
     Azimuth             FLOAT           NULL,
     MD                  FLOAT           NULL,
+    TVD                 FLOAT           NULL,
     Inclination         FLOAT           NULL,
-    STATUS_CODE         VARCHAR(1)      NOT NULL
+    StatusCode          VARCHAR(1)      NOT NULL,
+    Created             DATETIME2(7)    NOT NULL
+        DEFAULT SYSUTCDATETIME()
 );
 GO
 
 CREATE TABLE dbo.DbzWell
 (
-  id            BIGINT          NOT NULL
+  WellId        BIGINT          NOT NULL
       PRIMARY KEY
   , API         VARCHAR(20)     NOT NULL
   , WellName    VARCHAR(255)    NOT NULL
-  , LATITUDE    FLOAT           NOT NULL
-  , LONGITUDE   FLOAT           NOT NULL
+  , Latitude    FLOAT           NOT NULL
+  , Longitude   FLOAT           NOT NULL
   , ts          DATETIME2(2)    NOT NULL
       DEFAULT SYSUTCDATETIME()
 );
@@ -60,22 +65,37 @@ EXEC sys.sp_cdc_enable_table
     , @supports_net_changes = 0;
 GO
 
-INSERT INTO dbo.DirectionalSurvey
+INSERT INTO dbo.DirectionalSurvey (
+    [SurveyId]
+    ,[API]
+    ,[WKID]
+    ,[FIPSCode]
+    ,[StatusCode]
+    --,[Created]
+)
 VALUES (1, '00-000-00001', 'WKID1', '0001', 'N')
-        , (2, '00-000-00002', 'WKID2', '0002', 'N')
+        , (2, '00-000-00002', 'WKID2', '0002', 'C')
         , (3, '00-000-00003', 'WKID3', '0003', 'N');
 GO
 
-INSERT INTO dbo.SurveyReport
-VALUES (1, 1, 1.0, 2.0, 3.0, 'N')
-        , (2, 1, 4.0, 5.0, 6.0, 'N')
-        , (3, 2, 7.0, 8.0, 9.0, 'N')
-        , (4, 2, 1.0, 2.0, 3.0, 'N')
-        , (5, 3, 4.0, 5.0, 6.0, 'N')
-        , (6, 3, 7.0, 8.0, 9.0, 'N');
+INSERT INTO dbo.SurveyReport (
+    [SurveyReportID]
+    ,[DirectionalSurveyId]
+    ,[Azimuth]
+    ,[MD]
+    ,[TVD]
+    ,[Inclination]
+    ,[StatusCode]    
+)
+VALUES (1, 1, 1.0, 2.0, 21.0, 3.0, 'N')
+        , (2, 1, 4.0, 5.0, 21.0, 6.0, 'C')
+        , (3, 2, 7.0, 8.0, 21.0, 9.0, 'N')
+        , (4, 2, 1.0, 2.0, 21.0, 3.0, 'N')
+        , (5, 3, 4.0, 5.0, 21.0, 6.0, 'C')
+        , (6, 3, 7.0, 8.0, 21.0, 9.0, 'N');
 GO
 
-INSERT INTO dbo.DbzWell (id, API, WellName, LATITUDE, LONGITUDE)
+INSERT INTO dbo.DbzWell (WellId, API, WellName, Latitude, Longitude)
   VALUES (0, '00-000-00000', 'WELL-0', 31.8457, 102.3676)
           , (1, '00-000-00001', 'WELL-1', 31.8457, 102.3676)
           , (2, '00-000-00002', 'WELL-2', 31.8457, 102.3676)

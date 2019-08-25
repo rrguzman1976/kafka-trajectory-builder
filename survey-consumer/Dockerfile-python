@@ -57,7 +57,8 @@ RUN buildDeps='build-essential git' \
     #&& apt-get purge -y --auto-remove $buildDeps
 
 COPY ./survey_consumer ${WORK_HOME}/survey_consumer
-COPY ./consume_dbz_well.py ${WORK_HOME}
+COPY ./consumer_well.py ${WORK_HOME}
+COPY ./consumer_survey.py ${WORK_HOME}
 
 WORKDIR ${WORK_HOME}
 

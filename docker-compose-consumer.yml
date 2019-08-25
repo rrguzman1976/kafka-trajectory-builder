@@ -6,7 +6,7 @@ services:
       context: ./survey-consumer
       dockerfile: Dockerfile-python
     ports:
-      - 8889:8888
+      - 8888:8888
     networks: 
       - kafka
     command: "jupyter notebook --ip 0.0.0.0 --no-browser --allow-root --NotebookApp.token=''"
@@ -17,8 +17,10 @@ services:
       - SQL_HOST=mssql
       - SQL_DB=ScratchDB
       - SQL_USER=sa
-      - SQL_PASSWORD=HelloWorld!
-      - ACQ_TOPIC=dir-survey-01
+      - SQL_PASSWORD=HelloWorld1
+      - ACQ_TOPIC=survey-acq
+      - KAFKA_BOOTSTRAP=kafka:9092
+      - KAFKA_CONSUMER=consumer_survey.py
     volumes: 
       - ./survey-consumer/jupyter:/opt/trajectory-consumer-service/local
 networks:
