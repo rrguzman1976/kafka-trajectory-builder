@@ -49,6 +49,8 @@ def main():
 
         p.flush()
 
+        # TODO: Use ORM to set status to 'P'
+
     except Exception as e:
         print(f"{e}")
 

@@ -2,6 +2,7 @@ from confluent_kafka import Consumer, KafkaError
 
 from python_gis import hello as h
 
+# TODO: Convert to read from survey-cln
 # Example consumer from Debezium topic.
 def main():
 
